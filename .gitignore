@@ -1,0 +1,10 @@
+.vscode/
+
+build/
+bin/
+*.o
+*.bin
+*.elf
+toymatic_tool
+build_*
+generated.*

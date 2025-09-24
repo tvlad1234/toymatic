@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<BeremizRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <TargetType>
+    <Generic Command="make -C ~/toymatic/runtime_src BEREMIZ_BUILD_PATH=%(buildpath)s "/>
+  </TargetType>
+  <Libraries Enable_Python_Library="false" Enable_Native_Library="false"/>
+</BeremizRoot>
