@@ -2,9 +2,18 @@
 
 small PLC, usable with the Beremiz IEC 61131-3 IDE
 
+![the toymatic PLC](readme_img/plc.jpg)
+
 ## Summary
 
 toymatic is an open-source PLC based around the STM32G031F6P6 microcontroller. It has 4 inputs, 4 outputs and an RS-485 port used for receiving PLC programs. The toymatic is programmed using the open-source [Beremiz](https://github.com/beremiz/beremiz) IEC 61131-3 IDE.
+
+## Demo
+The demo program included in the [Beremiz project template](beremiz_example/):
+![demo LD program](readme_img/demo_program.png)
+
+running on the PLC, with an I/O trainer board connected:
+![PLC with trainer board, running program](readme_img/demo_video.webp)
 
 ## Repository contents
 This repository contains the [firmware](firmware/) for the PLC, the [host tool](host_tool/) used for programming the toymatic, the [runtime source code](runtime_src) in which PLC programs are executed and an [example project](beremiz_example/) for the Beremiz IDE which is also meant to be used as a template for other projects.
@@ -15,6 +24,8 @@ This repository makes extensive use of Makefiles. Running `make` in the root of 
 This project has been developed and tested on a host system running Ubuntu 24.04 LTS.
 
 The integration of the example project with the Beremiz IDE expects this repository to reside in the home folder of the current user and for the Beremiz IDE to be installed at the same path as specified in the [Beremiz setup instructions](https://github.com/beremiz/beremiz?tab=readme-ov-file#build-on-linux-developer-setup).
+
+At time of writing, the upstream Beremiz IDE has a few minor but breaking bugs which prevent the LD editor and Makefile integration to function. As such, I recommend using [my fork of Beremiz](https://github.com/tvlad1234/beremiz), which patches these issues.
 
 Building the toymatic firmware requires the ARM GCC toolchain.
 
