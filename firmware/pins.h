@@ -3,6 +3,9 @@
 
 #include "libopencm3/stm32/gpio.h"
 
+#define RUN_SW_GPIO GPIOC
+#define RUN_SW_PIN GPIO14
+
 #define LED_GREEN_GPIO GPIOC
 #define LED_GREEN_PIN GPIO15
 

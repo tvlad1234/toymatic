@@ -61,7 +61,7 @@ int main(void)
 
 		if (plc.fault_code == PLC_OK)
 		{
-			if (plc.run)
+			if (plc.run && !gpio_get(RUN_SW_GPIO, RUN_SW_PIN))
 			{
 				// PLC cycle
 				gpio_set(LED_GREEN_GPIO, LED_GREEN_PIN);

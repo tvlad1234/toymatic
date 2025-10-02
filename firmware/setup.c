@@ -30,6 +30,8 @@ void systick_setup(void)
 
 void led_setup(void)
 {
+    gpio_mode_setup(RUN_SW_GPIO, GPIO_MODE_INPUT, GPIO_PUPD_PULLUP, RUN_SW_PIN);
+
     gpio_mode_setup(LED_GREEN_GPIO, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, LED_GREEN_PIN);
     gpio_mode_setup(LED_RED_GPIO, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, LED_RED_PIN);
 
