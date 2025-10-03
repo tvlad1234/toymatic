@@ -41,6 +41,13 @@ struct MiniRV32IMAState
     uint32_t plc_out;
     uint8_t plc_program_init;
     uint8_t plc_cycle_complete;
+
+    uint8_t hmi_reg_num;
+    uint8_t hmi_coil_num;
+    uint8_t hmi_contact_num;
+
+    uint32_t hmi_coils;
+    uint32_t hmi_contacts;
 };
 
 #endif

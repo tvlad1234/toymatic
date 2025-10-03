@@ -73,11 +73,49 @@ int main(void)
 					// Read inputs
 					plc_read_inputs(&plc);
 
+					// Read HMI contacts
+					if (plc.core.hmi_contact_num)
+					{
+						plc.core.hmi_contacts = 0;
+
+						modbus_func_pdu_read_discrete_inputs(&mb_pdu, 0, plc.core.hmi_contact_num);
+						modbus_send_pdu(&mb, 16, &mb_pdu);
+						int res = modbus_wait_processing(&mb, 15);
+
+						if (!res)
+							res = modbus_read_pdu(&mb, 16, &mb_pdu);
+
+						if (res == MB_OK && mb_pdu.data[0] == 0x02)
+						{
+							uint32_t contacts = 0;
+							int byte_count = mb_pdu.data[1];
+
+							for (int i = 0; i < byte_count; i++)
+							{
+								contacts |= ((uint32_t)mb_pdu.data[2 + i]) << (8 * i);
+							}
+
+							plc.core.hmi_contacts = contacts;
+						}
+					}
+
 					// Execute program
 					plc.fault_code = plc_interpret_cycle(&plc);
 
 					// Update outputs
 					plc_update_outputs(&plc);
+
+					// Write HMI coils
+					if (plc.core.hmi_coil_num)
+					{
+						modbus_func_pdu_write_multiple_coils(&mb_pdu, 0, plc.core.hmi_coil_num, &plc.core.hmi_coils);
+						modbus_send_pdu(&mb, 16, &mb_pdu);
+
+						int res = modbus_wait_processing(&mb, 15);
+
+						if (!res)
+							res = modbus_read_pdu(&mb, 16, &mb_pdu);
+					}
 
 					plc.next_cycle += plc.Cycle_time;
 				}

@@ -91,7 +91,14 @@ static uint32_t HandleControlStore(void *state, uint32_t addy, uint32_t val)
 		core->plc_program_init = val;
 	else if (addy == 0x1100c00c) // plc end
 		core->plc_cycle_complete = val;
-
+	else if (addy == 0x1100c010) // HMI register, coil, contact number [MSB -> LSB]
+	{
+		core->hmi_contact_num = val & 0xFF;
+		core->hmi_coil_num = (val >> 8) & 0xFF;
+		core->hmi_reg_num = (val >> 16) & 0xFF;
+	}
+	else if (addy == 0x1100c014) // HMI coils
+		core->hmi_coils = val;
 	return 0;
 }
 
@@ -111,5 +118,7 @@ static uint32_t HandleControlLoad(void *state, uint32_t addy)
 		return core->plc_program_init;
 	else if (addy == 0x1100c00c) // plc end
 		return core->plc_cycle_complete;
+	else if (addy == 0x1100c018) // HMI contacts
+		return core->hmi_contacts;
 	return 0;
 }
