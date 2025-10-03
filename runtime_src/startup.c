@@ -1,6 +1,17 @@
+#include <stddef.h>
+
 void initial_jump() __attribute__((naked)) __attribute((section(".init")));
+void *memset(void *dest, int c, size_t n);
 void baremain(void);
 int main(void);
+
+void *memset(void *dest, int c, size_t n)
+{
+	unsigned char *s = dest;
+	for (; n; n--, s++)
+		*s = c;
+	return dest;
+}
 
 void initial_jump(void)
 {
