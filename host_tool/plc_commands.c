@@ -16,7 +16,7 @@ int modbus_wait_pdu(struct modbus_ctx *ctx, uint8_t addr, struct modbus_pdu *pdu
         modbus_check_rx(ctx, micros());
 
         int ret = modbus_read_pdu(ctx, addr, pdu);
-        if (ret == MB_OK || ret == MB_CRC_ERR || ret == MB_OTHER_ADDR)
+        if (ret == MB_OK)
             return ret;
 
         // Timeout check
