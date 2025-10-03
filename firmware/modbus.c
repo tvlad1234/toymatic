@@ -101,3 +101,18 @@ int modbus_send_pdu(struct modbus_ctx *ctx, uint8_t addr, struct modbus_pdu *pdu
     ctx->state = MB_IDLE;
     return MB_OK;
 }
+
+int modbus_wait_processing(struct modbus_ctx *mb, uint32_t timeout_ms)
+{
+    uint32_t start = micros();
+    while (mb->state != MB_PROCESSING)
+    {
+        modbus_check_rx(mb, micros());
+
+        // timeout check
+        if ((micros() - start) >= (timeout_ms * 1000UL))
+            return 1; // timed out
+    }
+
+    return 0;
+}

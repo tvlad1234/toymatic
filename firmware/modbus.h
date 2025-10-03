@@ -47,5 +47,9 @@ void modbus_receive_byte(struct modbus_ctx *ctx, uint8_t b, uint32_t time_us);
 int modbus_process_adu(struct modbus_ctx *ctx, uint8_t addr, struct modbus_pdu *pdu);
 int modbus_read_pdu(struct modbus_ctx *ctx, uint8_t addr, struct modbus_pdu *pdu);
 int modbus_send_pdu(struct modbus_ctx *ctx, uint8_t addr, struct modbus_pdu *pdu);
+int modbus_wait_processing(struct modbus_ctx *mb, uint32_t timeout_ms);
+
+void modbus_func_pdu_write_multiple_coils(struct modbus_pdu *mb_pdu, uint16_t start_addr, uint16_t num_coils, const uint8_t *coil_values);
+void modbus_func_pdu_read_discrete_inputs(struct modbus_pdu *mb_pdu, uint16_t start_addr, uint16_t num_contacts);
 
 #endif
