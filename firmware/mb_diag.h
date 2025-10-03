@@ -17,6 +17,7 @@ enum PLC_COMMANDS
     CMD_CLEAR_FAULT,
 };
 
-void diag_client(struct PLC *plc, struct modbus_ctx *mb, struct modbus_pdu *mb_pdu, uint32_t time_us);
+void query_diag_server(struct PLC *plc, struct modbus_ctx *mb, struct modbus_pdu *mb_pdu);
+void handle_diag_response(struct PLC *plc, struct modbus_ctx *mb, struct modbus_pdu *mb_pdu);
 
 #endif

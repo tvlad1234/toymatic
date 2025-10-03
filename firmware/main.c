@@ -55,6 +55,8 @@ int main(void)
 	else
 		plc.fault_code = plc_init_program(&plc, plc_binary + 8);
 
+	uint32_t next_diag_query = 0;
+
 	while (1)
 	{
 		uint32_t loop_start = micros();
@@ -93,13 +95,18 @@ int main(void)
 			blink_update(&red_blinker, loop_start);
 		}
 
+		// Diag server query
 		uint32_t now = micros();
+		if ((int32_t)(now - next_diag_query) >= 0)
+		{
+			query_diag_server(&plc, &mb, &mb_pdu);
 
-		// Check whether Modbus is active
-		modbus_check_rx(&mb, now);
+			int res = modbus_wait_processing(&mb, 10);
+			if (!res)
+				handle_diag_response(&plc, &mb, &mb_pdu);
 
-		// Query diagnostic server every 500ms
-		diag_client(&plc, &mb, &mb_pdu, now);
+			next_diag_query += 50000;
+		}
 
 		// Verify that cycle timing is met
 		int32_t loop_duration = (int32_t)(micros() - loop_start);
